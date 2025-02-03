@@ -9,5 +9,11 @@ package com.mycompany.hospital_management_system;
  * @author hmaso
  */
 public class Patient {
-    private String Id, Name;
+    private String Id, Name, Contact;
+    
+    public Patient(){
+        
+    }
+    
+    
 }
