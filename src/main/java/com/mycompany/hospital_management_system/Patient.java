@@ -22,6 +22,35 @@ public class Patient {
         this.Name = Name;
         this.Contact = Contact;
     }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String Id) {
+        this.Id = Id;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public String getContact() {
+        return Contact;
+    }
+
+    public void setContact(String Contact) {
+        this.Contact = Contact;
+    }
+
+    @Override
+    public String toString() {
+        return "Patient{" + "Id=" + Id + ", Name=" + Name + ", Contact=" + Contact + '}';
+    }
     
     
 }
