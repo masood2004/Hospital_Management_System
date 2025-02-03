@@ -12,7 +12,15 @@ public class Patient {
     private String Id, Name, Contact;
     
     public Patient(){
-        
+        Id = "";
+        this.Name = "";
+        this.Contact = "";
+    }
+
+    public Patient(String Id, String Name, String Contact) {
+        this.Id = Id;
+        this.Name = Name;
+        this.Contact = Contact;
     }
     
     
