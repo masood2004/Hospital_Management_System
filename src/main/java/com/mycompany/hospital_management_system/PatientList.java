@@ -46,10 +46,32 @@ public class PatientList {
         }
     }
 
-    public Patient searchByID(String id) {
-        PNode temp = head;
+    public Patient searchByID(String Id) {
+        PNode temp = head;        
         while (temp != null) {
-            if(temp.patient.getId().equals(id)){
+            if(temp.patient.getId().equals(Id)){
+                return temp.patient;
+            }
+            temp = temp.previous;
+        }
+        return null;
+    }
+    
+    public Patient searchByName(String Name) {
+        PNode temp = head;        
+        while (temp != null) {
+            if(temp.patient.getName().equals(Name)){
+                return temp.patient;
+            }
+            temp = temp.previous;
+        }
+        return null;
+    }
+    
+    public Patient searchByContact(String Contact) {
+        PNode temp = head;        
+        while (temp != null) {
+            if(temp.patient.getContact().equals(Contact)){
                 return temp.patient;
             }
             temp = temp.previous;
