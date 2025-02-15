@@ -81,6 +81,11 @@ public class CheckupList {
         }
     }
 
+    /**
+     *
+     * @param index
+     * @return
+     */
     public Patient getPatient(int index) {
         CNode temp = head;
         int i = 0;
