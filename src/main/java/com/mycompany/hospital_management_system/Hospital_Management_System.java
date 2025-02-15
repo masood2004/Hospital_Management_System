@@ -13,11 +13,13 @@ public class Hospital_Management_System {
         Patient p1 = new Patient("18", "Ayesha", "03174742145");
         Patient p2 = new Patient("24", "ASDFasdf", "023023432130");
         Patient p3 = new Patient("22", "ASasdfDF", "0230123432130");
+        Patient p4 = new Patient("22", "ASazxscF", "0230123430");
 
         PatientList plist = new PatientList();
         plist.insert(p1);
         plist.insert(p2);
         plist.insert(p3);
+        plist.insert(p4);
 
 //        System.out.println(plist.searchByID("18"));
 //        System.out.println(plist.searchByName("Ayesha"));
@@ -35,7 +37,19 @@ public class Hospital_Management_System {
         
         Dlist.AllDoctorInfo();
         
-//        System.out.println(Dlist.searchByID("000"));
+        CheckupList checkupList = new CheckupList();
+        
+        Checkup c1 = new Checkup(d1, p1, 3, "A", "55");
+        Checkup c2 = new Checkup(d2, p2, 2, "B", "55");
+        Checkup c3 = new Checkup(d3, p3, 4, "C", "54");
+        Checkup c4 = new Checkup(d1, p4, 1, "D", "55");
+        Checkup c5 = new Checkup(d3, p3, 4, "E", "54");
 
+        checkupList.enqueue(c1);
+        checkupList.enqueue(c2);
+        checkupList.enqueue(c3);
+        checkupList.enqueue(c4);
+        checkupList.enqueue(c5);
+        checkupList.Print();
     }
 }
