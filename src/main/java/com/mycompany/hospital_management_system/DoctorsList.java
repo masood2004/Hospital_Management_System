@@ -56,6 +56,7 @@ public class DoctorsList {
         }
         return null;
     }
+
     public Doctor searchByContact(String contact) {
         DNode temp = head;
         while (temp != null) {
@@ -66,11 +67,30 @@ public class DoctorsList {
         }
         return null;
     }
-    
+
+    public Doctor getAtIndex(int index) {
+        DNode temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.previous;
+        }
+        return temp.doctor;
+    }
+
+    public int size() {
+        DNode temp = head;
+        int count = 0;
+        while (temp != null) {
+            count++;
+            temp = temp.previous;
+        }
+        return count;
+    }
+
     public void AllDoctorInfo() {
         DNode temp = head;
+        int count = 0;
         while (temp != null) {
-           System.out.println("Doctor ID = " + temp.doctor.getId() + "  Speciality = " + temp.doctor.getSpeciality());
+            System.out.println(count + ":   " + temp.doctor.toString());
             temp = temp.previous;
         }
     }

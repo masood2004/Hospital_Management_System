@@ -47,36 +47,57 @@ public class PatientList {
     }
 
     public Patient searchByID(String Id) {
-        PNode temp = head;        
+        PNode temp = head;
         while (temp != null) {
-            if(temp.patient.getId().equals(Id)){
+            if (temp.patient.getId().equals(Id)) {
                 return temp.patient;
             }
             temp = temp.previous;
         }
         return null;
     }
-    
+
     public Patient searchByName(String Name) {
-        PNode temp = head;        
+        PNode temp = head;
         while (temp != null) {
-            if(temp.patient.getName().equals(Name)){
+            if (temp.patient.getName().equals(Name)) {
                 return temp.patient;
             }
             temp = temp.previous;
         }
         return null;
     }
-    
+
     public Patient searchByContact(String Contact) {
-        PNode temp = head;        
+        PNode temp = head;
         while (temp != null) {
-            if(temp.patient.getContact().equals(Contact)){
+            if (temp.patient.getContact().equals(Contact)) {
                 return temp.patient;
             }
             temp = temp.previous;
         }
         return null;
+    }
+
+    public int size() {
+        PNode temp = head;
+        int count = 0;
+        while (temp != null) {
+            count++;
+            temp = temp.previous;
+        }
+        return count;
+    }
+
+    public void AllPatientInfo() {
+        PNode temp = head;
+        int count = 0;
+
+        while (temp != null) {
+            count++;
+            System.out.println(count + ": " + temp.patient.toString());
+            temp = temp.previous;
+        }
     }
 
 }
