@@ -106,6 +106,8 @@ public class Hospital_Management_System {
                         cList[i].addRecommandation(j, rec);
                     }
                 }
+            } else if (choice.equals("0")) {
+                break;
             }
         }
     }
