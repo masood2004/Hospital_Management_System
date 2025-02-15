@@ -10,7 +10,7 @@ package com.mycompany.hospital_management_system;
 public class Hospital_Management_System {
 
     public static void main(String[] args) {
-        Patient p1 = new Patient("23", "ASDF", "02301232130");
+        Patient p1 = new Patient("18", "Ayesha", "03174742145");
         Patient p2 = new Patient("24", "ASDFasdf", "023023432130");
         Patient p3 = new Patient("22", "ASasdfDF", "0230123432130");
 
@@ -19,10 +19,10 @@ public class Hospital_Management_System {
         plist.insert(p2);
         plist.insert(p3);
         
-        System.out.println(plist.searchByID("23").getName());
-        System.out.println(plist.searchByID("23").getContact());
+        System.out.println(plist.searchByID("18"));
+        System.out.println(plist.searchByName("Ayesha"));
+        System.out.println(plist.searchByContact("03174742145"));
                 
-        
        
     }
 }
