@@ -9,7 +9,7 @@ package com.mycompany.hospital_management_system;
  * @author hmaso
  */
 public class Doctor {
-    private String Id, Name, Contact, Specialty;
+    private String Id, Name, Contact, Speciality;
     private int fees;
 
     public Doctor() {
@@ -17,11 +17,11 @@ public class Doctor {
 
     
     
-    public Doctor(String Id, String Name, String Contact, String Specialty, int fees) {
+    public Doctor(String Id, String Name, String Contact, String Speciality, int fees) {
         this.Id = Id;
         this.Name = Name;
         this.Contact = Contact;
-        this.Specialty = Specialty;
+        this.Speciality = Speciality;
         this.fees = fees;
     }
 
@@ -49,12 +49,12 @@ public class Doctor {
         this.Contact = Contact;
     }
 
-    public String getSpecialty() {
-        return Specialty;
+    public String getSpeciality() {
+        return Speciality;
     }
 
-    public void setSpecialty(String Specialty) {
-        this.Specialty = Specialty;
+    public void setSpecialty(String Speciality) {
+        this.Speciality = Speciality;
     }
 
     public int getFees() {
@@ -67,7 +67,7 @@ public class Doctor {
 
     @Override
     public String toString() {
-        return "Doctor{" + "Id=" + Id + ", Name=" + Name + ", Contact=" + Contact + ", Specialty=" + Specialty + ", fees=" + fees + '}';
+        return "Doctor{" + "Id=" + Id + ", Name=" + Name + ", Contact=" + Contact + ", Speciality=" + Speciality + ", fees=" + fees + '}';
     }
     
     

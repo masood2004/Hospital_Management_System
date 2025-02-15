@@ -1,1 +1,3 @@
-com\mycompany\hospital_management_system\Hospital_Management_System.class
+com\mycompany\hospital_management_system\Patient.class
+com\mycompany\hospital_management_system\Checkup.class
+com\mycompany\hospital_management_system\Doctor.class

@@ -22,27 +22,57 @@ class DNode {
         previous = null;
     }
 
-    public class DoctorsList {
+}
 
-        DNode head, tail;
+public class DoctorsList {
 
-        public DoctorsList() {
-            head = null;
-            tail = null;
-        }
+    DNode head, tail;
 
-        public void insert(Doctor doctor) {
-            DNode node = new DNode(doctor);
-
-            if (head == null || tail == null) {
-                head = node;
-                tail = node;
-            } else {
-                head.next = node;
-                node.previous = head;
-                head = node;
-            }
-        }
-
+    public DoctorsList() {
+        head = null;
+        tail = null;
     }
+
+    public void insert(Doctor doctor) {
+        DNode node = new DNode(doctor);
+
+        if (head == null || tail == null) {
+            head = node;
+            tail = node;
+        } else {
+            head.next = node;
+            node.previous = head;
+            head = node;
+        }
+    }
+
+    public Doctor searchByID(String Id) {
+        DNode temp = head;
+        while (temp != null) {
+            if (temp.doctor.getId().equals(Id)) {
+                return temp.doctor;
+            }
+            temp = temp.previous;
+        }
+        return null;
+    }
+    public Doctor searchByContact(String contact) {
+        DNode temp = head;
+        while (temp != null) {
+            if (temp.doctor.getContact().equals(contact)) {
+                return temp.doctor;
+            }
+            temp = temp.previous;
+        }
+        return null;
+    }
+    
+    public void AllDoctorInfo() {
+        DNode temp = head;
+        while (temp != null) {
+           System.out.println("Doctor ID = " + temp.doctor.getId() + "  Speciality = " + temp.doctor.getSpeciality());
+            temp = temp.previous;
+        }
+    }
+
 }
