@@ -118,6 +118,7 @@ public class Hospital_Management_System {
                 }
             }
         }
+        sc.close();
     }
 
     public static void MainMenu() {
