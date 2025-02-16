@@ -30,8 +30,7 @@ public class Hospital_Management_System {
             choice = sc.nextLine();
             switch (choice) {
                 case "1" -> {
-                    System.out.println("\n Doctor ID");
-                    int id = sc.nextInt();
+                    int id = getValidIntegerInput("Doctor ID: ", sc);
                     System.out.println("\n Doctor Name");
                     String name = sc.nextLine();
                     System.out.println("\n Doctor Contact");
@@ -48,8 +47,7 @@ public class Hospital_Management_System {
                     System.out.println("Doctor added successfully and saved to file.");
                 }
                 case "2" -> {
-                    System.out.println("\n Patient ID");
-                    int id = sc.nextInt();
+                    int id = getValidIntegerInput("Patient ID: ", sc);
                     System.out.println("\n Patient Name");
                     String name = sc.nextLine();
                     System.out.println("\n Patient Contact");
@@ -122,23 +120,23 @@ public class Hospital_Management_System {
     }
 
     public static void MainMenu() {
-        System.out.println("\n==========================================");
+        System.out.println("\n========================================================");
         System.out.println("      *****  HMS - Hospital Management System  *****      ");
-        System.out.println("==========================================");
-        System.out.println("                 MAIN MENU                ");
-        System.out.println("==========================================\n");
+        System.out.println("==========================================================");
+        System.out.println("                        MAIN MENU                         ");
+        System.out.println("========================================================\n");
 
         System.out.println("  [1]  Insert New Doctor");
         System.out.println("  [2]  Insert New Patient");
-        System.out.println("------------------------------------------");
+        System.out.println("----------------------------------------------------------");
         System.out.println("  [3]  Display All Doctors");
         System.out.println("  [4]  Display All Patients");
-        System.out.println("------------------------------------------");
+        System.out.println("----------------------------------------------------------");
         System.out.println("  [5]  Checkup Menu");
-        System.out.println("------------------------------------------");
+        System.out.println("----------------------------------------------------------");
         System.out.println("  [0]  Exit");
 
-        System.out.println("\n==========================================");
+        System.out.println("\n========================================================");
         System.out.print("  Please enter your choice: ");
     }
 
@@ -159,9 +157,9 @@ public class Hospital_Management_System {
         File myObj = new File("Doctors.txt");
         try {
             if (!myObj.exists()) {
-                myObj.createNewFile(); // Create file if it doesn’t exist
+                myObj.createNewFile();
                 System.out.println("Doctors.txt file created.");
-                return; // Exit since there is nothing to read
+                return;
             }
 
             try (Scanner myReader = new Scanner(myObj)) {
@@ -212,6 +210,19 @@ public class Hospital_Management_System {
             }
         } catch (IOException e) {
             System.out.println("Error reading Patients.txt: " + e.getMessage());
+        }
+    }
+
+    public static int getValidIntegerInput(String prompt, Scanner sc) {
+        int value;
+        while (true) {
+            System.out.print(prompt);
+            try {
+                value = Integer.parseInt(sc.nextLine().trim());
+                return value;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a valid integer.");
+            }
         }
     }
 
