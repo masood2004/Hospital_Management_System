@@ -3,8 +3,8 @@
  */
 package com.mycompany.hospital_management_system;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -43,6 +43,9 @@ public class Hospital_Management_System {
                     sc.nextLine();
                     Doctor d = new Doctor(id, name, contact, specialization, fee);
                     dList.insert(d);
+
+                    writeDFile(dList);
+                    System.out.println("Doctor added successfully and saved to file.");
                 }
                 case "2" -> {
                     System.out.println("\n Patient ID");
@@ -53,6 +56,9 @@ public class Hospital_Management_System {
                     String contact = sc.nextLine();
                     Patient patient = new Patient(id, name, contact);
                     pList.insert(patient);
+
+                    writePFile(pList);
+                    System.out.println("Patient added successfully and saved to file.");
                 }
                 case "3" -> dList.AllDoctorInfo();
                 case "4" -> pList.AllPatientInfo();
@@ -93,7 +99,6 @@ public class Hospital_Management_System {
                                         "" + java.util.Calendar.getInstance().getTime().toString());
                                 cList[i].enqueue(checkup);
                             }
-                            sc.close();
                         }
                     }
                     for (int i = 0; i < cList.length; i++) {
@@ -116,85 +121,95 @@ public class Hospital_Management_System {
     }
 
     public static void MainMenu() {
-        System.out.println("\n\n ||     *****   HMS  *****     ||");
-        System.out.println("        || Main Menu ||");
-        System.out.println("\nEnter 1 for Insert New Doctor");
-        System.out.println("Enter 2 for Insert New Patient");
-        System.out.println("\nEnter 3 for Display All Doctors");
-        System.out.println("Enter 4 for Display All Patients");
+        System.out.println("\n==========================================");
+        System.out.println("      *****  HMS - Hospital Management System  *****      ");
+        System.out.println("==========================================");
+        System.out.println("                 MAIN MENU                ");
+        System.out.println("==========================================\n");
 
-        System.out.println("Enter 5 for Checkup Menu");
-        System.out.println("Enter 0 for Exit");
+        System.out.println("  [1]  Insert New Doctor");
+        System.out.println("  [2]  Insert New Patient");
+        System.out.println("------------------------------------------");
+        System.out.println("  [3]  Display All Doctors");
+        System.out.println("  [4]  Display All Patients");
+        System.out.println("------------------------------------------");
+        System.out.println("  [5]  Checkup Menu");
+        System.out.println("------------------------------------------");
+        System.out.println("  [0]  Exit");
+
+        System.out.println("\n==========================================");
+        System.out.print("  Please enter your choice: ");
     }
 
     public static void writeDFile(DoctorsList dList) {
-        try {
-            String data = "";
+        try (BufferedWriter myWriter = new BufferedWriter(new FileWriter("Doctors.txt"))) {
             for (int i = 0; i < dList.size(); i++) {
                 Doctor doctor = dList.getAtIndex(i);
-                data += doctor.getId() + "," + doctor.getName() + "," + doctor.getContact() + ","
-                        + doctor.getSpeciality() + "," + doctor.getFees() + "\n";
+                myWriter.write(doctor.getId() + "," + doctor.getName() + "," + doctor.getContact() + ","
+                        + doctor.getSpeciality() + "," + doctor.getFees() + "\n");
             }
-            FileWriter myWriter = new FileWriter("Doctors.txt");
-            myWriter.write(data);
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("Successfully wrote to Doctors.txt.");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            System.out.println("Error writing to Doctors.txt: " + e.getMessage());
         }
     }
 
     public static void readDFile(DoctorsList dList) {
+        File myObj = new File("Doctors.txt");
         try {
-            File myObj = new File("Doctors.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                if (data.length() > 5) {
-                    String[] doctor = data.split(",");
-                    dList.insert(new Doctor(doctor[0], doctor[1], doctor[2], doctor[3], Integer.parseInt(doctor[4])));
+            if (!myObj.exists()) {
+                myObj.createNewFile(); // Create file if it doesn’t exist
+                System.out.println("Doctors.txt file created.");
+                return; // Exit since there is nothing to read
+            }
+
+            try (Scanner myReader = new Scanner(myObj)) {
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+                    if (!data.isEmpty()) {
+                        String[] doctor = data.split(",");
+                        dList.insert(
+                                new Doctor(doctor[0], doctor[1], doctor[2], doctor[3], Integer.parseInt(doctor[4])));
+                    }
                 }
             }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Error reading Doctors.txt: " + e.getMessage());
         }
     }
 
     public static void writePFile(PatientList pList) {
-        try {
-            String data = "";
+        try (BufferedWriter myWriter = new BufferedWriter(new FileWriter("Patients.txt"))) {
             for (int i = 0; i < pList.size(); i++) {
                 Patient patient = pList.getAtIndex(i);
-                data += patient.getId() + "," + patient.getName() + "," + patient.getContact() + "\n";
+                myWriter.write(patient.getId() + "," + patient.getName() + "," + patient.getContact() + "\n");
             }
-            FileWriter myWriter = new FileWriter("Patients.txt");
-            myWriter.write(data);
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("Successfully wrote to Patients.txt.");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            System.out.println("Error writing to Patients.txt: " + e.getMessage());
         }
     }
 
     public static void readPFile(PatientList pList) {
+        File myObj = new File("Patients.txt");
         try {
-            File myObj = new File("Patients.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                if (data.length() > 5) {
-                    String[] patient = data.split(",");
-                    pList.insert(new Patient(patient[0], patient[1], patient[2]));
+            if (!myObj.exists()) {
+                myObj.createNewFile(); // Create file if it doesn’t exist
+                System.out.println("Patients.txt file created.");
+                return; // Exit since there is nothing to read
+            }
+
+            try (Scanner myReader = new Scanner(myObj)) {
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+                    if (!data.isEmpty()) {
+                        String[] patient = data.split(",");
+                        pList.insert(new Patient(patient[0], patient[1], patient[2]));
+                    }
                 }
             }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Error reading Patients.txt: " + e.getMessage());
         }
     }
 

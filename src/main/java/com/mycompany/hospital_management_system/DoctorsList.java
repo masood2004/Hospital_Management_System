@@ -90,6 +90,7 @@ public class DoctorsList {
         DNode temp = head;
         int count = 0;
         while (temp != null) {
+            count++;
             System.out.println(count + ":   " + temp.doctor.toString());
             temp = temp.previous;
         }
