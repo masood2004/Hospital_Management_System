@@ -93,7 +93,7 @@ public class Hospital_Management_System {
                             if (patient == null) {
                                 System.out.println("Patient not found");
                             } else {
-                                Checkup checkup = new Checkup(doctor, patient, p, "",
+                                Checkup checkup = new Checkup(doctor, patient, p,
                                         "" + java.util.Calendar.getInstance().getTime().toString());
                                 cList[i].enqueue(checkup);
                             }
@@ -104,8 +104,6 @@ public class Hospital_Management_System {
                                 "\n\n Patient " + (i + 1) + " In  Queue for Doctor " + dList.getAtIndex(i).getName());
                         for (int j = 0; j < cList[i].size(); j++) {
                             System.out.println("Enter Recommendation for Patient: " + cList[i].getPatient(j));
-                            String rec = sc.nextLine();
-                            cList[i].addRecommendation(j, rec);
                         }
                     }
                 }
@@ -219,7 +217,7 @@ public class Hospital_Management_System {
             while (temp != null) {
                 Checkup checkup = temp.checkup;
                 myWriter.write(checkup.getDoctor().getId() + "," + checkup.getPatient().getId() + ","
-                        + checkup.getPriority() + "," + checkup.getRecommendation() + "," + checkup.getDate() + "\n");
+                        + checkup.getPriority() + "," + checkup.getDate() + "\n");
                 temp = temp.previous;
             }
             System.out.println("Successfully wrote to Checkups.txt.");
@@ -242,18 +240,17 @@ public class Hospital_Management_System {
                     String data = myReader.nextLine();
                     if (!data.isEmpty()) {
                         String[] checkupData = data.split(",");
-                        if (checkupData.length == 5) {
+                        if (checkupData.length == 4) {
                             int doctorId = Integer.parseInt(checkupData[0]);
                             int patientId = Integer.parseInt(checkupData[1]);
                             int priority = Integer.parseInt(checkupData[2]);
-                            String recommendation = checkupData[3];
-                            String date = checkupData[4];
+                            String date = checkupData[3];
 
                             Doctor doctor = dList.searchByID(doctorId);
                             Patient patient = pList.searchByID(patientId);
 
                             if (doctor != null && patient != null) {
-                                Checkup checkup = new Checkup(doctor, patient, priority, recommendation, date);
+                                Checkup checkup = new Checkup(doctor, patient, priority, date);
                                 cList.enqueue(checkup);
                             } else {
                                 System.out.println("Skipping invalid checkup record: " + data);

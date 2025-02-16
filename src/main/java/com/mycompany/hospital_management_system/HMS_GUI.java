@@ -149,8 +149,6 @@ public class HMS_GUI extends JFrame {
         JTextField txtPatientId = new JTextField();
         JLabel lblPriority = new JLabel("Priority (1-Followup, 2-Normal, 3-Emergency):");
         JTextField txtPriority = new JTextField();
-        JLabel lblRecommendation = new JLabel("Recommendation:");
-        JTextField txtRecommendation = new JTextField();
 
         JButton btnAddCheckup = new JButton("Add Checkup");
 
@@ -160,8 +158,6 @@ public class HMS_GUI extends JFrame {
         panel.add(txtPatientId);
         panel.add(lblPriority);
         panel.add(txtPriority);
-        panel.add(lblRecommendation);
-        panel.add(txtRecommendation);
         panel.add(btnAddCheckup);
 
         btnAddCheckup.addActionListener(_ -> {
@@ -169,7 +165,6 @@ public class HMS_GUI extends JFrame {
                 int doctorId = Integer.parseInt(txtDoctorId.getText());
                 int patientId = Integer.parseInt(txtPatientId.getText());
                 int priority = Integer.parseInt(txtPriority.getText());
-                String recommendation = txtRecommendation.getText();
 
                 Doctor doctor = dList.searchByID(doctorId);
                 Patient patient = pList.searchByID(patientId);
@@ -179,7 +174,7 @@ public class HMS_GUI extends JFrame {
                     return;
                 }
 
-                Checkup checkup = new Checkup(doctor, patient, priority, recommendation,
+                Checkup checkup = new Checkup(doctor, patient, priority,
                         "" + java.util.Calendar.getInstance().getTime());
                 cList.enqueue(checkup);
                 Hospital_Management_System.writeCFile(cList);
@@ -209,7 +204,7 @@ public class HMS_GUI extends JFrame {
     }
 
     private JScrollPane createCheckupTable() {
-        String[] columnNames = { "Doctor", "Patient", "Priority", "Recommendation", "Date" };
+        String[] columnNames = { "Doctor", "Patient", "Priority", "Date" };
         checkupTableModel = new DefaultTableModel(columnNames, 0);
         JTable checkupTable = new JTable(checkupTableModel);
         return new JScrollPane(checkupTable);
@@ -247,7 +242,6 @@ public class HMS_GUI extends JFrame {
                     checkup.getDoctor().getName(),
                     checkup.getPatient().getName(),
                     checkup.getPriority(),
-                    checkup.getRecommendation(),
                     checkup.getDate()
             });
             temp = temp.previous;
