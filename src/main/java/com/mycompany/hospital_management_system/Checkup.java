@@ -64,9 +64,8 @@ public class Checkup {
 
     @Override
     public String toString() {
-        return "Checkup{" + "Doctor=" + Doctor.toString() + ", Patient=" + Patient.toString() + ", Priority=" + Priority + ", Recommandation=" + Recommandation + ", Date=" + Date + '}';
+        return "Checkup{" + "Doctor=" + Doctor.toString() + ", Patient=" + Patient.toString() + ", Priority=" + Priority
+                + ", Recommandation=" + Recommandation + ", Date=" + Date + '}';
     }
-    
-    
-    
+
 }

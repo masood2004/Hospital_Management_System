@@ -213,6 +213,116 @@ public class Hospital_Management_System {
         }
     }
 
+    public static void writeCFile(CheckupList cList) {
+        try (BufferedWriter myWriter = new BufferedWriter(new FileWriter("Checkups.txt", true))) { // append mode
+            CNode temp = cList.head;
+            while (temp != null) {
+                Checkup checkup = temp.checkup;
+                myWriter.write(checkup.getDoctor().getId() + "," + checkup.getPatient().getId() + ","
+                        + checkup.getPriority() + "," + checkup.getRecommandation() + "," + checkup.getDate() + "\n");
+                temp = temp.previous;
+            }
+            System.out.println("Successfully wrote to Checkups.txt.");
+        } catch (IOException e) {
+            System.out.println("Error writing to Checkups.txt: " + e.getMessage());
+        }
+    }
+
+    public static void readCFile(CheckupList cList, DoctorsList dList, PatientList pList) {
+        File myObj = new File("Checkups.txt");
+        try {
+            if (!myObj.exists()) {
+                myObj.createNewFile();
+                System.out.println("Checkups.txt file created.");
+                return; // Exit since there is nothing to read
+            }
+
+            try (Scanner myReader = new Scanner(myObj)) {
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+                    if (!data.isEmpty()) {
+                        String[] checkupData = data.split(",");
+                        if (checkupData.length == 5) {
+                            int doctorId = Integer.parseInt(checkupData[0]);
+                            int patientId = Integer.parseInt(checkupData[1]);
+                            int priority = Integer.parseInt(checkupData[2]);
+                            String recommendation = checkupData[3];
+                            String date = checkupData[4];
+
+                            Doctor doctor = dList.searchByID(doctorId);
+                            Patient patient = pList.searchByID(patientId);
+
+                            if (doctor != null && patient != null) {
+                                Checkup checkup = new Checkup(doctor, patient, priority, recommendation, date);
+                                cList.enqueue(checkup);
+                            } else {
+                                System.out.println("Skipping invalid checkup record: " + data);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading Checkups.txt: " + e.getMessage());
+        }
+    }
+
+    public static void writePrescriptionFile(CheckupList cList) {
+        try (BufferedWriter myWriter = new BufferedWriter(new FileWriter("Prescriptions.txt", true))) {
+            CNode temp = cList.head;
+            while (temp != null) {
+                Checkup checkup = temp.checkup;
+                if (!checkup.getRecommandation().isEmpty()) {
+                    myWriter.write(checkup.getDoctor().getId() + "," + checkup.getPatient().getId() + ","
+                            + checkup.getRecommandation() + "\n");
+                }
+                temp = temp.previous;
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing to Prescriptions.txt: " + e.getMessage());
+        }
+    }
+
+    public static void readPrescriptionFile(CheckupList cList, DoctorsList dList, PatientList pList) {
+        File myObj = new File("Prescriptions.txt");
+        try {
+            if (!myObj.exists()) {
+                myObj.createNewFile();
+                System.out.println("Prescriptions.txt file created.");
+                return;
+            }
+
+            try (Scanner myReader = new Scanner(myObj)) {
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+                    if (!data.isEmpty()) {
+                        String[] prescriptionData = data.split(",");
+                        if (prescriptionData.length == 3) {
+                            int doctorId = Integer.parseInt(prescriptionData[0]);
+                            int patientId = Integer.parseInt(prescriptionData[1]);
+                            String prescription = prescriptionData[2];
+
+                            Doctor doctor = dList.searchByID(doctorId);
+                            Patient patient = pList.searchByID(patientId);
+
+                            if (doctor != null && patient != null) {
+                                for (int i = 0; i < cList.size(); i++) {
+                                    Checkup checkup = cList.getAtIndex(i);
+                                    if (checkup.getDoctor().getId() == doctorId
+                                            && checkup.getPatient().getId() == patientId) {
+                                        checkup.setRecommandation(prescription);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading Prescriptions.txt: " + e.getMessage());
+        }
+    }
+
     public static int getValidIntegerInput(String prompt, Scanner sc) {
         int value;
         while (true) {

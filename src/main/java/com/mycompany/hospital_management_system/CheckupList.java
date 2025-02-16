@@ -109,6 +109,14 @@ public class CheckupList {
         return count;
     }
 
+    public Checkup getAtIndex(int index) {
+        CNode temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.previous;
+        }
+        return temp.checkup;
+    }
+
     public void Print() {
         CNode temp = head;
         while (temp != null) {
