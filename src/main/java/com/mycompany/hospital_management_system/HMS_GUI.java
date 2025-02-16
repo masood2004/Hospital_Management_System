@@ -23,8 +23,7 @@ public class HMS_GUI extends JFrame {
         // Load data from files
         Hospital_Management_System.readDFile(dList);
         Hospital_Management_System.readPFile(pList);
-        Hospital_Management_System.readCFile(cList, dList, pList); // Load Checkups from file
-        Hospital_Management_System.readPrescriptionFile(cList, dList, pList); // Load Prescriptions from file
+        Hospital_Management_System.readCFile(cList, dList, pList);
 
         // Create tabbed pane
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -41,21 +40,18 @@ public class HMS_GUI extends JFrame {
         patientPanel.add(createPatientTable(), BorderLayout.CENTER);
         tabbedPane.addTab("Patients", patientPanel);
 
-        // Checkup Queue Panel (new tab)
-        JPanel checkupQueuePanel = createCheckupQueueTab(); // Checkup Queue form and table
-        tabbedPane.addTab("Checkup Queue", checkupQueuePanel);
-
-        // Prescriptions Panel (new tab)
-        JPanel prescriptionsPanel = createPrescriptionsTab(); // Prescriptions form and table
-        tabbedPane.addTab("Prescriptions", prescriptionsPanel);
+        // Checkups Panel
+        JPanel checkupPanel = new JPanel(new BorderLayout());
+        checkupPanel.add(createCheckupForm(), BorderLayout.NORTH);
+        checkupPanel.add(createCheckupTable(), BorderLayout.CENTER);
+        tabbedPane.addTab("Checkups", checkupPanel);
 
         // Add tabbed pane to frame
         add(tabbedPane);
 
         updateDoctorTable();
         updatePatientTable();
-        updateCheckupQueueTable(new DefaultTableModel()); // Initialize Checkup Queue table
-        updatePrescriptionTable(new DefaultTableModel()); // Initialize Prescription table
+        updateCheckupTable();
     }
 
     private JPanel createDoctorForm() {
@@ -86,7 +82,7 @@ public class HMS_GUI extends JFrame {
         panel.add(txtFee);
         panel.add(btnAddDoctor);
 
-        btnAddDoctor.addActionListener(e -> {
+        btnAddDoctor.addActionListener(_ -> {
             try {
                 int id = Integer.parseInt(txtId.getText());
                 String name = txtName.getText();
@@ -98,13 +94,6 @@ public class HMS_GUI extends JFrame {
                 dList.insert(doctor);
                 Hospital_Management_System.writeDFile(dList);
                 updateDoctorTable();
-
-                txtId.setText("");
-                txtName.setText("");
-                txtContact.setText("");
-                txtSpeciality.setText("");
-                txtFee.setText("");
-
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid input! Please enter valid numbers for ID and Fee.");
             }
@@ -133,7 +122,7 @@ public class HMS_GUI extends JFrame {
         panel.add(txtContact);
         panel.add(btnAddPatient);
 
-        btnAddPatient.addActionListener(e -> {
+        btnAddPatient.addActionListener(_ -> {
             try {
                 int id = Integer.parseInt(txtId.getText());
                 String name = txtName.getText();
@@ -143,11 +132,6 @@ public class HMS_GUI extends JFrame {
                 pList.insert(patient);
                 Hospital_Management_System.writePFile(pList);
                 updatePatientTable();
-
-                txtId.setText("");
-                txtName.setText("");
-                txtContact.setText("");
-
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid ID.");
             }
@@ -156,121 +140,50 @@ public class HMS_GUI extends JFrame {
         return panel;
     }
 
-    private JPanel createCheckupQueueTab() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
-        // Create a form to add patients to the queue
-        JPanel formPanel = new JPanel(new GridLayout(4, 2));
+    private JPanel createCheckupForm() {
+        JPanel panel = new JPanel(new GridLayout(5, 2));
 
         JLabel lblDoctorId = new JLabel("Doctor ID:");
         JTextField txtDoctorId = new JTextField();
         JLabel lblPatientId = new JLabel("Patient ID:");
         JTextField txtPatientId = new JTextField();
-        JLabel lblPriority = new JLabel("Priority (1 - Followup, 2 - Normal, 3 - Emergency):");
+        JLabel lblPriority = new JLabel("Priority (1-Followup, 2-Normal, 3-Emergency):");
         JTextField txtPriority = new JTextField();
+        JLabel lblRecommendation = new JLabel("Recommendation:");
+        JTextField txtRecommendation = new JTextField();
 
-        JButton btnAddToQueue = new JButton("Add to Queue");
+        JButton btnAddCheckup = new JButton("Add Checkup");
 
-        formPanel.add(lblDoctorId);
-        formPanel.add(txtDoctorId);
-        formPanel.add(lblPatientId);
-        formPanel.add(txtPatientId);
-        formPanel.add(lblPriority);
-        formPanel.add(txtPriority);
-        formPanel.add(btnAddToQueue);
+        panel.add(lblDoctorId);
+        panel.add(txtDoctorId);
+        panel.add(lblPatientId);
+        panel.add(txtPatientId);
+        panel.add(lblPriority);
+        panel.add(txtPriority);
+        panel.add(lblRecommendation);
+        panel.add(txtRecommendation);
+        panel.add(btnAddCheckup);
 
-        panel.add(formPanel, BorderLayout.NORTH);
-
-        // Create a table to display the queue
-        String[] columnNames = { "Doctor", "Patient", "Priority" };
-        DefaultTableModel queueTableModel = new DefaultTableModel(columnNames, 0);
-        JTable queueTable = new JTable(queueTableModel);
-        JScrollPane scrollPane = new JScrollPane(queueTable);
-        panel.add(scrollPane, BorderLayout.CENTER);
-
-        btnAddToQueue.addActionListener(e -> {
+        btnAddCheckup.addActionListener(_ -> {
             try {
                 int doctorId = Integer.parseInt(txtDoctorId.getText());
                 int patientId = Integer.parseInt(txtPatientId.getText());
                 int priority = Integer.parseInt(txtPriority.getText());
+                String recommendation = txtRecommendation.getText();
 
                 Doctor doctor = dList.searchByID(doctorId);
                 Patient patient = pList.searchByID(patientId);
 
-                if (doctor != null && patient != null) {
-                    Checkup checkup = new Checkup(doctor, patient, priority, "", "");
-                    cList.enqueue(checkup);
-                    updateCheckupQueueTable(queueTableModel);
-                } else {
+                if (doctor == null || patient == null) {
                     JOptionPane.showMessageDialog(null, "Invalid Doctor or Patient ID.");
+                    return;
                 }
 
-                // Clear fields
-                txtDoctorId.setText("");
-                txtPatientId.setText("");
-                txtPriority.setText("");
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Invalid input! Please enter valid numbers.");
-            }
-        });
-
-        return panel;
-    }
-
-    private JPanel createPrescriptionsTab() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
-        // Create a form to enter prescription details
-        JPanel formPanel = new JPanel(new GridLayout(3, 2));
-
-        JLabel lblPatientId = new JLabel("Patient ID:");
-        JTextField txtPatientId = new JTextField();
-        JLabel lblPrescription = new JLabel("Prescription:");
-        JTextField txtPrescription = new JTextField();
-
-        JButton btnSavePrescription = new JButton("Save Prescription");
-
-        formPanel.add(lblPatientId);
-        formPanel.add(txtPatientId);
-        formPanel.add(lblPrescription);
-        formPanel.add(txtPrescription);
-        formPanel.add(btnSavePrescription);
-
-        panel.add(formPanel, BorderLayout.NORTH);
-
-        // Create a table to show patients who have completed their checkups
-        String[] columnNames = { "Doctor", "Patient", "Priority", "Prescription" };
-        DefaultTableModel prescriptionTableModel = new DefaultTableModel(columnNames, 0);
-        JTable prescriptionTable = new JTable(prescriptionTableModel);
-        JScrollPane scrollPane = new JScrollPane(prescriptionTable);
-        panel.add(scrollPane, BorderLayout.CENTER);
-
-        btnSavePrescription.addActionListener(e -> {
-            try {
-                int patientId = Integer.parseInt(txtPatientId.getText());
-                String prescription = txtPrescription.getText();
-
-                // Search for the patient in the queue
-                Patient patient = pList.searchByID(patientId);
-                if (patient != null) {
-                    // Update the prescription details for this patient in the queue
-                    for (int i = 0; i < cList.size(); i++) {
-                        Checkup checkup = cList.getAtIndex(i);
-                        if (checkup.getPatient().getId() == patientId) {
-                            checkup.setRecommandation(prescription); // Add prescription
-                            updatePrescriptionTable(prescriptionTableModel);
-                            break;
-                        }
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Invalid Patient ID.");
-                }
-
-                // Clear fields
-                txtPatientId.setText("");
-                txtPrescription.setText("");
+                Checkup checkup = new Checkup(doctor, patient, priority, recommendation,
+                        "" + java.util.Calendar.getInstance().getTime());
+                cList.enqueue(checkup);
+                Hospital_Management_System.writeCFile(cList);
+                updateCheckupTable();
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid input! Please enter valid numbers.");
             }
@@ -295,6 +208,13 @@ public class HMS_GUI extends JFrame {
         return new JScrollPane(patientTable);
     }
 
+    private JScrollPane createCheckupTable() {
+        String[] columnNames = { "Doctor", "Patient", "Priority", "Recommendation", "Date" };
+        checkupTableModel = new DefaultTableModel(columnNames, 0);
+        JTable checkupTable = new JTable(checkupTableModel);
+        return new JScrollPane(checkupTable);
+    }
+
     private void updateDoctorTable() {
         doctorTableModel.setRowCount(0); // Clear table before updating
 
@@ -317,35 +237,18 @@ public class HMS_GUI extends JFrame {
         }
     }
 
-    private void updateCheckupQueueTable(DefaultTableModel queueTableModel) {
-        queueTableModel.setRowCount(0); // Clear the table before updating
+    private void updateCheckupTable() {
+        checkupTableModel.setRowCount(0); // Clear table before updating
 
         CNode temp = cList.head;
         while (temp != null) {
             Checkup checkup = temp.checkup;
-            queueTableModel.addRow(new Object[] {
-                    checkup.getDoctor().getName(),
-                    checkup.getPatient().getName(),
-                    checkup.getPriority()
-            });
-            temp = temp.previous;
-        }
-    }
-
-    private void updatePrescriptionTable(DefaultTableModel prescriptionTableModel) {
-        prescriptionTableModel.setRowCount(0); // Clear the table before updating
-
-        CNode temp = cList.head;
-        while (temp != null) {
-            Checkup checkup = temp.checkup;
-            if (checkup.getRecommandation().isEmpty()) {
-                continue; // Skip patients without prescription
-            }
-            prescriptionTableModel.addRow(new Object[] {
+            checkupTableModel.addRow(new Object[] {
                     checkup.getDoctor().getName(),
                     checkup.getPatient().getName(),
                     checkup.getPriority(),
-                    checkup.getRecommandation()
+                    checkup.getRecommandation(),
+                    checkup.getDate()
             });
             temp = temp.previous;
         }
