@@ -89,6 +89,14 @@ public class PatientList {
         return count;
     }
 
+    public Patient getAtIndex(int index) {
+        PNode temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.previous;
+        }
+        return temp.patient;
+    }
+
     public void AllPatientInfo() {
         PNode temp = head;
         int count = 0;
