@@ -3,6 +3,7 @@ package com.mycompany.hospital_management_system;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import javax.swing.border.*;
 
 public class HMS_GUI extends JFrame {
 
@@ -16,9 +17,10 @@ public class HMS_GUI extends JFrame {
 
     public HMS_GUI() {
         setTitle("Hospital Management System");
-        setSize(800, 600);
+        setSize(900, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setLookAndFeel();
 
         // Load data from files
         Hospital_Management_System.readDFile(dList);
@@ -27,21 +29,26 @@ public class HMS_GUI extends JFrame {
 
         // Create tabbed pane
         JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setBackground(new Color(60, 63, 65));
+        tabbedPane.setForeground(Color.BLACK);
 
         // Doctors Panel
         JPanel doctorPanel = new JPanel(new BorderLayout());
+        doctorPanel.setBackground(new Color(240, 240, 240));
         doctorPanel.add(createDoctorForm(), BorderLayout.NORTH);
         doctorPanel.add(createDoctorTable(), BorderLayout.CENTER);
         tabbedPane.addTab("Doctors", doctorPanel);
 
         // Patients Panel
         JPanel patientPanel = new JPanel(new BorderLayout());
+        patientPanel.setBackground(new Color(240, 240, 240));
         patientPanel.add(createPatientForm(), BorderLayout.NORTH);
         patientPanel.add(createPatientTable(), BorderLayout.CENTER);
         tabbedPane.addTab("Patients", patientPanel);
 
         // Checkups Panel
         JPanel checkupPanel = new JPanel(new BorderLayout());
+        checkupPanel.setBackground(new Color(240, 240, 240));
         checkupPanel.add(createCheckupForm(), BorderLayout.NORTH);
         checkupPanel.add(createCheckupTable(), BorderLayout.CENTER);
         tabbedPane.addTab("Checkups", checkupPanel);
@@ -54,8 +61,21 @@ public class HMS_GUI extends JFrame {
         updateCheckupTable();
     }
 
+    private void setLookAndFeel() {
+        try {
+            // Set look and feel to Nimbus (modern and clean UI)
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException
+                | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     private JPanel createDoctorForm() {
-        JPanel panel = new JPanel(new GridLayout(6, 2));
+        JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JLabel lblId = new JLabel("Doctor ID:");
         JTextField txtId = new JTextField();
@@ -69,6 +89,10 @@ public class HMS_GUI extends JFrame {
         JTextField txtFee = new JTextField();
 
         JButton btnAddDoctor = new JButton("Add Doctor");
+        btnAddDoctor.setBackground(new Color(50, 150, 250));
+        btnAddDoctor.setForeground(Color.BLACK);
+        btnAddDoctor.setFocusPainted(false);
+        btnAddDoctor.setFont(new Font("Arial", Font.BOLD, 14));
 
         panel.add(lblId);
         panel.add(txtId);
@@ -103,7 +127,9 @@ public class HMS_GUI extends JFrame {
     }
 
     private JPanel createPatientForm() {
-        JPanel panel = new JPanel(new GridLayout(4, 2));
+        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JLabel lblId = new JLabel("Patient ID:");
         JTextField txtId = new JTextField();
@@ -113,6 +139,10 @@ public class HMS_GUI extends JFrame {
         JTextField txtContact = new JTextField();
 
         JButton btnAddPatient = new JButton("Add Patient");
+        btnAddPatient.setBackground(new Color(50, 150, 250));
+        btnAddPatient.setForeground(Color.BLACK);
+        btnAddPatient.setFocusPainted(false);
+        btnAddPatient.setFont(new Font("Arial", Font.BOLD, 14));
 
         panel.add(lblId);
         panel.add(txtId);
@@ -141,7 +171,9 @@ public class HMS_GUI extends JFrame {
     }
 
     private JPanel createCheckupForm() {
-        JPanel panel = new JPanel(new GridLayout(5, 2));
+        JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JLabel lblDoctorId = new JLabel("Doctor ID:");
         JTextField txtDoctorId = new JTextField();
@@ -151,6 +183,10 @@ public class HMS_GUI extends JFrame {
         JTextField txtPriority = new JTextField();
 
         JButton btnAddCheckup = new JButton("Add Checkup");
+        btnAddCheckup.setBackground(new Color(50, 150, 250));
+        btnAddCheckup.setForeground(Color.BLACK);
+        btnAddCheckup.setFocusPainted(false);
+        btnAddCheckup.setFont(new Font("Arial", Font.BOLD, 14));
 
         panel.add(lblDoctorId);
         panel.add(txtDoctorId);
@@ -191,6 +227,7 @@ public class HMS_GUI extends JFrame {
         String[] columnNames = { "ID", "Name", "Contact", "Specialization", "Fee" };
         doctorTableModel = new DefaultTableModel(columnNames, 0);
         JTable doctorTable = new JTable(doctorTableModel);
+        styleTable(doctorTable);
         updateDoctorTable();
         return new JScrollPane(doctorTable);
     }
@@ -199,6 +236,7 @@ public class HMS_GUI extends JFrame {
         String[] columnNames = { "ID", "Name", "Contact" };
         patientTableModel = new DefaultTableModel(columnNames, 0);
         JTable patientTable = new JTable(patientTableModel);
+        styleTable(patientTable);
         updatePatientTable();
         return new JScrollPane(patientTable);
     }
@@ -207,7 +245,18 @@ public class HMS_GUI extends JFrame {
         String[] columnNames = { "Doctor", "Patient", "Priority", "Date" };
         checkupTableModel = new DefaultTableModel(columnNames, 0);
         JTable checkupTable = new JTable(checkupTableModel);
+        styleTable(checkupTable);
         return new JScrollPane(checkupTable);
+    }
+
+    private void styleTable(JTable table) {
+        table.setRowHeight(30);
+        table.setFont(new Font("Arial", Font.PLAIN, 14));
+        table.setSelectionBackground(new Color(102, 178, 255));
+        table.setBorder(new EmptyBorder(10, 10, 10, 10));
+        table.setSelectionForeground(Color.BLACK);
+        table.setGridColor(Color.GRAY);
+        table.setShowGrid(true);
     }
 
     private void updateDoctorTable() {
