@@ -46,10 +46,10 @@ public class DoctorsList {
         }
     }
 
-    public Doctor searchByID(String Id) {
+    public Doctor searchByID(int Id) {
         DNode temp = head;
         while (temp != null) {
-            if (temp.doctor.getId().equals(Id)) {
+            if (temp.doctor.getId() == Id) {
                 return temp.doctor;
             }
             temp = temp.previous;

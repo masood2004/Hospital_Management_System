@@ -31,7 +31,7 @@ public class Hospital_Management_System {
             switch (choice) {
                 case "1" -> {
                     System.out.println("\n Doctor ID");
-                    String id = sc.nextLine();
+                    int id = sc.nextInt();
                     System.out.println("\n Doctor Name");
                     String name = sc.nextLine();
                     System.out.println("\n Doctor Contact");
@@ -49,7 +49,7 @@ public class Hospital_Management_System {
                 }
                 case "2" -> {
                     System.out.println("\n Patient ID");
-                    String id = sc.nextLine();
+                    int id = sc.nextInt();
                     System.out.println("\n Patient Name");
                     String name = sc.nextLine();
                     System.out.println("\n Patient Contact");
@@ -78,8 +78,8 @@ public class Hospital_Management_System {
 
                         while (true) {
                             System.out.println("Enter Patient ID for Checkup or 0 to Exit");
-                            String id = sc.nextLine();
-                            if (id.equals("0")) {
+                            int id = sc.nextInt();
+                            if (id == 0) {
                                 break;
                             }
                             System.out.println("Priority '3' for Emergency, '2' for Normal, '1' for Followup");
@@ -170,7 +170,8 @@ public class Hospital_Management_System {
                     if (!data.isEmpty()) {
                         String[] doctor = data.split(",");
                         dList.insert(
-                                new Doctor(doctor[0], doctor[1], doctor[2], doctor[3], Integer.parseInt(doctor[4])));
+                                new Doctor(Integer.parseInt(doctor[0]), doctor[1], doctor[2], doctor[3],
+                                        Integer.parseInt(doctor[4])));
                     }
                 }
             }
@@ -205,7 +206,7 @@ public class Hospital_Management_System {
                     String data = myReader.nextLine();
                     if (!data.isEmpty()) {
                         String[] patient = data.split(",");
-                        pList.insert(new Patient(patient[0], patient[1], patient[2]));
+                        pList.insert(new Patient(Integer.parseInt(patient[0]), patient[1], patient[2]));
                     }
                 }
             }

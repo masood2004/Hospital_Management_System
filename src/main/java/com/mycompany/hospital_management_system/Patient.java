@@ -9,25 +9,26 @@ package com.mycompany.hospital_management_system;
  * @author hmaso
  */
 public class Patient {
-    private String Id, Name, Contact;
-    
-    public Patient(){
-        Id = "";
+    private String Name, Contact;
+    private int Id;
+
+    public Patient() {
+        Id = 0;
         this.Name = "";
         this.Contact = "";
     }
 
-    public Patient(String Id, String Name, String Contact) {
+    public Patient(int Id, String Name, String Contact) {
         this.Id = Id;
         this.Name = Name;
         this.Contact = Contact;
     }
 
-    public String getId() {
+    public int getId() {
         return Id;
     }
 
-    public void setId(String Id) {
+    public void setId(int Id) {
         this.Id = Id;
     }
 
@@ -51,6 +52,5 @@ public class Patient {
     public String toString() {
         return "Patient{" + "Id=" + Id + ", Name=" + Name + ", Contact=" + Contact + '}';
     }
-    
-    
+
 }

@@ -46,10 +46,10 @@ public class PatientList {
         }
     }
 
-    public Patient searchByID(String Id) {
+    public Patient searchByID(int Id) {
         PNode temp = head;
         while (temp != null) {
-            if (temp.patient.getId().equals(Id)) {
+            if (temp.patient.getId() == Id) {
                 return temp.patient;
             }
             temp = temp.previous;
