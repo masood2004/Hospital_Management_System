@@ -247,7 +247,7 @@ public class HMS_GUI extends JFrame {
                     checkup.getDoctor().getName(),
                     checkup.getPatient().getName(),
                     checkup.getPriority(),
-                    checkup.getRecommandation(),
+                    checkup.getRecommendation(),
                     checkup.getDate()
             });
             temp = temp.previous;

@@ -12,13 +12,13 @@ public class Checkup {
     Doctor Doctor;
     Patient Patient;
     int Priority;
-    String Recommandation, Date;
+    String Recommendation, Date;
 
-    public Checkup(Doctor Doctor, Patient Patient, int Priority, String Recommandation, String Date) {
+    public Checkup(Doctor Doctor, Patient Patient, int Priority, String Recommendation, String Date) {
         this.Doctor = Doctor;
         this.Patient = Patient;
         this.Priority = Priority;
-        this.Recommandation = Recommandation;
+        this.Recommendation = Recommendation;
         this.Date = Date;
     }
 
@@ -46,12 +46,12 @@ public class Checkup {
         this.Priority = Priority;
     }
 
-    public String getRecommandation() {
-        return Recommandation;
+    public String getRecommendation() {
+        return Recommendation;
     }
 
-    public void setRecommandation(String Recommandation) {
-        this.Recommandation = Recommandation;
+    public void setRecommendation(String Recommendation) {
+        this.Recommendation = Recommendation;
     }
 
     public String getDate() {
@@ -65,7 +65,7 @@ public class Checkup {
     @Override
     public String toString() {
         return "Checkup{" + "Doctor=" + Doctor.toString() + ", Patient=" + Patient.toString() + ", Priority=" + Priority
-                + ", Recommandation=" + Recommandation + ", Date=" + Date + '}';
+                + ", Recommendation=" + Recommendation + ", Date=" + Date + '}';
     }
 
 }

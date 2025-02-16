@@ -68,12 +68,12 @@ public class CheckupList {
         return checkup.checkup;
     }
 
-    public void addRecommandation(int index, String rec) {
+    public void addRecommendation(int index, String rec) {
         CNode temp = head;
         int i = 0;
         while (temp != null) {
             if (index == i) {
-                temp.checkup.setRecommandation(rec);
+                temp.checkup.setRecommendation(rec);
                 break;
             }
             i++;
@@ -120,7 +120,7 @@ public class CheckupList {
     public void Print() {
         CNode temp = head;
         while (temp != null) {
-            System.out.println(temp.checkup.getPriority() + "   " + temp.checkup.getRecommandation());
+            System.out.println(temp.checkup.getPriority() + "   " + temp.checkup.getRecommendation());
             temp = temp.previous;
         }
     }

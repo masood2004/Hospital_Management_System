@@ -105,7 +105,7 @@ public class Hospital_Management_System {
                         for (int j = 0; j < cList[i].size(); j++) {
                             System.out.println("Enter Recommendation for Patient: " + cList[i].getPatient(j));
                             String rec = sc.nextLine();
-                            cList[i].addRecommandation(j, rec);
+                            cList[i].addRecommendation(j, rec);
                         }
                     }
                 }
@@ -219,7 +219,7 @@ public class Hospital_Management_System {
             while (temp != null) {
                 Checkup checkup = temp.checkup;
                 myWriter.write(checkup.getDoctor().getId() + "," + checkup.getPatient().getId() + ","
-                        + checkup.getPriority() + "," + checkup.getRecommandation() + "," + checkup.getDate() + "\n");
+                        + checkup.getPriority() + "," + checkup.getRecommendation() + "," + checkup.getDate() + "\n");
                 temp = temp.previous;
             }
             System.out.println("Successfully wrote to Checkups.txt.");
