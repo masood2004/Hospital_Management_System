@@ -118,6 +118,13 @@ public class HMS_GUI extends JFrame {
                 dList.insert(doctor);
                 Hospital_Management_System.writeDFile(dList);
                 updateDoctorTable();
+                // Clear the form fields after adding the doctor
+                txtId.setText("");
+                txtName.setText("");
+                txtContact.setText("");
+                txtSpeciality.setText("");
+                txtFee.setText("");
+
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid input! Please enter valid numbers for ID and Fee.");
             }
@@ -162,6 +169,12 @@ public class HMS_GUI extends JFrame {
                 pList.insert(patient);
                 Hospital_Management_System.writePFile(pList);
                 updatePatientTable();
+
+                // Clear the form fields after adding the patient
+                txtId.setText("");
+                txtName.setText("");
+                txtContact.setText("");
+                
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid ID.");
             }
@@ -215,6 +228,12 @@ public class HMS_GUI extends JFrame {
                 cList.enqueue(checkup);
                 Hospital_Management_System.writeCFile(cList);
                 updateCheckupTable();
+
+                // Clear the form fields after adding the checkup
+                txtDoctorId.setText("");
+                txtPatientId.setText("");
+                txtPriority.setText("");
+                
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Invalid input! Please enter valid numbers.");
             }
